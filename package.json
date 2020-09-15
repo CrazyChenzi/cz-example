@@ -4,7 +4,8 @@
   "description": "- 提供更多的历史信息，方便快速浏览\r - 可以过滤某些`commit`，便于筛选代码`review`\r - 可以追踪`commit`生成更新日志\r - 可以关联**issues**",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -18,11 +19,19 @@
   },
   "homepage": "https://github.com/blacklisten/cz-example#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0"
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^4.3.0"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }  
+  }  
 }
