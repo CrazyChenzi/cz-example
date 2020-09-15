@@ -1,0 +1,28 @@
+{
+  "name": "cz-example",
+  "version": "1.0.0",
+  "description": "- 提供更多的历史信息，方便快速浏览\r - 可以过滤某些`commit`，便于筛选代码`review`\r - 可以追踪`commit`生成更新日志\r - 可以关联**issues**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blacklisten/cz-example.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blacklisten/cz-example/issues"
+  },
+  "homepage": "https://github.com/blacklisten/cz-example#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
