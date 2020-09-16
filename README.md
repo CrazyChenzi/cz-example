@@ -1,5 +1,3 @@
-# cz-example
-
 ## 规范的Git提交说明
 
 - 提供更多的历史信息，方便快速浏览
@@ -68,3 +66,125 @@
 #### 关闭缺陷
 
 如果当前提交是针对特定的issue，那么可以在`Footer`部分填写需要关闭的单个 issue 或一系列issues。
+
+## Commitizen
+
+[commitizen/cz-cli](https://github.com/commitizen/cz-cli)是一个可以实现规范的**提交说明**的工具：
+
+**When you commit with Commitizen, you'll be prompted to fill out any required commit fields at commit time. No more waiting until later for a git commit hook to run and reject your commit (though that can still be helpful). No more digging through CONTRIBUTING.md to find what the preferred format is. Get instant feedback on your commit message formatting and be prompted for required fields.**
+
+提供选择的提交信息类别，快速生成**提交说明**。安装cz工具:
+
+```bash
+npm install -g commitizen
+```
+
+## Commitizen适配器
+
+### cz-conventional-changelog
+
+如果需要在项目中使用**commitizen**生成符合AngularJS规范的**提交说明**，初始化**cz-conventional-changelog**适配器：
+
+```bash
+commitizen init cz-conventional-changelog --save --save-exact
+```
+
+初始化命令主要进行了3件事情
+
+1. 在项目中安装**cz-conventional-changelog** 适配器依赖
+2. 将适配器依赖保存到`package.json`的`devDependencies`字段信息
+3. 在`package.json`中新增`config.commitizen`字段信息，主要用于配置cz工具的适配器路径：
+
+```json
+"devDependencies": {
+ "cz-conventional-changelog": "^2.1.0"
+},
+"config": {
+  "commitizen": {
+    "path": "./node_modules/cz-conventional-changelog"
+  }
+}
+```
+
+## Commitizen日志
+
+如果使用了[cz](https://github.com/commitizen/cz-cli)工具集，配套[conventional-changelog](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog)可以快速生成开发日志：
+
+```bash
+npm install conventional-changelog conventional-changelog-cli -D
+```
+
+在`pacage.json`中加入生成日志命令：
+
+```json
+"version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
+```
+
+You could follow the following workflow
+
+- Make changes
+- Commit those changes
+- Pull all the tags
+- Run the npm version [patch|minor|major] command
+- Push
+
+执行`npm run version`后可查看生产的日志[CHANGELOG.md](https://github.com/ziyi2/cz-example/blob/master/CHANGELOG.md)。
+
+> 注意要使用正确的`Header`的`type`，否则生成的日志会不准确，这里只是一个示例，生成的日志不是很严格。
+
+## 配置
+
+```bash
+npm install @commitlint/cli @commitlint/config-conventional conventional-changelog conventional-changelog-cli cz-conventional-changelog husky -D
+```
+
+创建**commitlint.config.js**
+
+```js
+module.exports = {
+  extends: ['@commitlint/config-conventional']
+}
+```
+
+修改**package.json**
+
+```json
+"scripts": {
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
+},
+"config": {
+    "commitizen": {
+        "path": "./node_modules/cz-conventional-changelog"
+    }
+},
+"husky": {
+    "hooks": {
+        "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+}
+```
+
+## 提交说明
+
+- git cz
+- Select the type of change that you're committing
+  - feat:     A new feature
+  - fix:      A bug fix
+  - docs:     Documentation only changes
+  - style:    Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  - refactor: A code change that neither fixes a bug nor adds a feature
+  - perf:     A code change that improves performance
+  - test:     Adding missing tests or correcting existing tests
+- What is the scope of this change (e.g. component or file name): (press enter to skip)   填写所修改的组件、文件名。**可跳过**
+- Write a short, imperative tense description of the change 进行一个简短的描述  max 94
+- Provide a longer description of the change 进行一个详细的描述**可跳过**
+- Are there any breaking changes? 是否发生重大改变 **可跳过**
+  - A BREAKING CHANGE commit requires a body. Please enter a longer description of the commit itself：重大改变的描述
+
+- git pull
+- git push
+
+## 参考
+
+[Cz工具集使用介绍 - 规范Git提交说明](https://juejin.im/post/6844903831893966856)
+
